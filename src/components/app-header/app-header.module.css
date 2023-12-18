@@ -1,0 +1,70 @@
+/*.header {*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*}*/
+
+/*.menuButtonContent {*/
+/*  display: flex;*/
+/*}*/
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: rgba(28, 28, 33, 1);
+  width: 100%;
+  box-shadow: 0 24px 32px rgba(0, 0, 0, .04), 0 16px 24px rgba(0, 0, 0, .04), 0 4px 8px rgba(0, 0, 0, .04), 0 0 1px rgba(0, 0, 0, .04);
+}
+
+.headerNav {
+  flex: 1 1 0;
+  }
+
+.nav {
+  max-width: 1280px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+}
+
+.ul {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.headerNavRight {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerLink {
+  display: flex;
+  flex-direction: row;
+}
+
+.headerLink:hover {
+  cursor: pointer;
+}
+
+.link {
+  cursor: pointer;
+  text-decoration: none;
+  color: #8585AD;
+}
+
+.linkActive {
+  cursor: pointer;
+  text-decoration: none;
+  color: #F2F2F3;
+}
