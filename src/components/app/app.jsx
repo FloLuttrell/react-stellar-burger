@@ -13,6 +13,8 @@ function App() {
           </BurgerConstructor>
 
         </div>
+        <div className={`p-10`}>
+        </div>
         <div className={styles.contentPart}>
           <BurgerIngredients>
           </BurgerIngredients>

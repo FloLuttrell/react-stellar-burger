@@ -1,0 +1,50 @@
+.burgerIngredients {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.burgerScrollWrapper {
+  position: absolute;
+  top:0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: scroll;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ingredientsList {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+
+}
+
+.ingredientsListTop {
+  padding: 0;
+  margin: 0;
+}
+
+.ingredientsListMiddle {
+  flex: 1 0 0;
+  position: relative;
+}
+
+.ingredientsListBottom {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+}
+
+.finalPrice {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  width: 90%;
+  gap: 40px;
+}

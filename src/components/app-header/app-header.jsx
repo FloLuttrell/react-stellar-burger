@@ -18,8 +18,8 @@ function AppHeader() {
 
           <li className={`pr-4`}>
             <div className={`${styles.headerLink} pl-5 pr-5`}>
-              <ListIcon type="primary"/>
-              <p className={"text text_type_main-default pl-2"}>Лента заказов</p>
+              <ListIcon type="secondary"/>
+              <p className={"text text_type_main-default text_color_inactive pl-2"}>Лента заказов</p>
             </div>
           </li>
         </ul>
@@ -32,8 +32,8 @@ function AppHeader() {
           <li className={`pr-4`}>
 
             <div className={`${styles.headerLink} pl-5 pr-5`}>
-              <ProfileIcon type="primary"/>
-              <p className={"text text_type_main-default pl-2"}>Личный кабинет</p>
+              <ProfileIcon type="secondary"/>
+              <p className={"text text_type_main-default text_color_inactive pl-2"}>Личный кабинет</p>
             </div>
 
           </li>
