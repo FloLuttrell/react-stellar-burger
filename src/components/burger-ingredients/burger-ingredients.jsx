@@ -1,9 +1,12 @@
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useEffect, useState} from "react";
 import styles from "./burger-ingredients.module.css";
+import Modal from "../modal/modal";
+import ModalIngredientDetails from "../modal-ingredient-details/modal-ingredient-details";
 
 function BurgerIngredients() {
   const [ingredients, setIngredients] = useState({buns: [], sauces: [], mains: []});
+  const [modalOpened, setModalOpened] = useState(false);
   useEffect(async () => {
     const resp = await fetch(`https://norma.nomoreparties.space/api/ingredients`);
     const {data} = await resp.json();
@@ -67,7 +70,7 @@ function BurgerIngredients() {
         <li>
           <div className={`${styles.finalPrice} pt-10 pb-10`}>
             <p className={`${styles.priceNumber} text text_type_digits-medium`}>676 <CurrencyIcon type="primary"/></p>
-            <Button htmlType="button" type="primary" size="large">Оформить заказ</Button>
+            <Button htmlType="button" type="primary" size="large" onClick={()=>(setModalOpened(true))}>Оформить заказ</Button>
           </div>
         </li>
       </ul>
@@ -78,6 +81,12 @@ function BurgerIngredients() {
     <div className={styles.burgerIngredients}>
       <div className={"pt-25"}></div>
       {ingredients.mains.length > 0 && mapIngredientToBurger(ingredients.mains)}
+      { modalOpened && (
+        <Modal title={''} handleCloseBtnClick={()=>setModalOpened(false)}>
+          <ModalIngredientDetails></ModalIngredientDetails>
+        </Modal>
+      )}
+
 
     </div>
   );
