@@ -26,6 +26,7 @@
 .ingredientsListTop {
   padding: 0;
   margin: 0;
+  list-style: none;
 }
 
 .ingredientsListMiddle {
@@ -47,4 +48,10 @@
   justify-content: flex-end;
   width: 90%;
   gap: 40px;
+}
+
+.ingredientItem{
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }

@@ -78,7 +78,7 @@ function BurgerIngredients() {
   );
 
   return (
-    <div className={styles.burgerIngredients}>
+    <div className={`${styles.burgerIngredients} pl-4`}>
       <div className={"pt-25"}></div>
       {ingredients.mains.length > 0 && mapIngredientToBurger(ingredients.mains)}
       { modalOpened && (
