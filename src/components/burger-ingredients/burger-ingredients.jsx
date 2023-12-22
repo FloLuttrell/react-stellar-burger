@@ -2,7 +2,7 @@ import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/
 import {useEffect, useState} from "react";
 import styles from "./burger-ingredients.module.css";
 import Modal from "../modal/modal";
-import ModalIngredientDetails from "../modal-ingredient-details/modal-ingredient-details";
+import ModalOrderDetails from "../modal-order-details/modal-order-details";
 
 function BurgerIngredients() {
   const [ingredients, setIngredients] = useState({buns: [], sauces: [], mains: []});
@@ -41,7 +41,7 @@ function BurgerIngredients() {
       </ul>
       <div className={`${styles.ingredientsListMiddle}`}>
       <ul className={`${styles.burgerScrollWrapper} custom-scroll`}>
-        {items.map((item, idx) => {
+        {items.map((item) => {
 
           return (
                 <li key={item._id} className={`${styles.ingredientItem} pb-2 pt-2`}>
@@ -83,7 +83,7 @@ function BurgerIngredients() {
       {ingredients.mains.length > 0 && mapIngredientToBurger(ingredients.mains)}
       { modalOpened && (
         <Modal title={''} handleCloseBtnClick={()=>setModalOpened(false)}>
-          <ModalIngredientDetails></ModalIngredientDetails>
+          <ModalOrderDetails imgUrl></ModalOrderDetails>
         </Modal>
       )}
 

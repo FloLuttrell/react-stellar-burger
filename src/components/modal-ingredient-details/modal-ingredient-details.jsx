@@ -1,17 +1,40 @@
-import styles from "../modal-ingredient-details/modal-ingredient-details.module.css";
-import doneImg from "../../img/successIcon.svg";
+import styles from './modal-ingredient-details.module.css'
+import PropTypes from "prop-types";
 
-function ModalIngredientDetails () {
+function ModalIngredientDetails({imgUrl, name, fat, proteins, carbohydrates, calories}) {
   return (
-    <div className={styles.mainContent}>
-      <p className={`${styles.glowNumbers} text_type_digits-large pt-4`}>3432423</p>
-      <p className={`text text_type_main-medium pt-8`}>Идентификатор заказа</p>
-      <img src={doneImg} alt={'done'} className='pt-15 pb-15'/>
-      <p className={`text text_type_main-default`}>Ваш заказ начали готовить</p>
-      <p className={`text text_type_main-default text_color_inactive pt-2 pb-30`}>Дождитесь готовности на орбитальной
-        станции</p>
+    <div className={styles.detailsMainContent}>
+      <img src={imgUrl} alt={name}/>
+      <div className={`${styles.subHeader} text text_type_main-medium pt-4 pb-8`}>{name}</div>
+      <div className={`${styles.nutritionPanel} pb-15`}>
+        <div className={styles.nutritionValues}>
+          <p className={`${styles.margin} text text_type_main-default text_color_inactive pr-5`}>Калории, ккал</p>
+          <p className={`${styles.margin} text text_type_digits-default text_color_inactive`}>{calories}</p>
+        </div>
+        <div className={styles.nutritionValues}>
+          <p className={`${styles.margin} text text_type_main-default text_color_inactive pr-5`}>Белки, г</p>
+          <p className={`${styles.margin} text text_type_digits-default text_color_inactive`}>{proteins}</p>
+        </div>
+        <div className={styles.nutritionValues}>
+          <p className={`${styles.margin} text text_type_main-default text_color_inactive pr-5`}>Жиры, г</p>
+          <p className={`${styles.margin} text text_type_digits-default text_color_inactive`}>{fat}</p>
+        </div>
+        <div className={styles.nutritionValues}>
+          <p className={`${styles.margin} text text_type_main-default text_color_inactive`}>Углеводы, г</p>
+          <p className={`${styles.margin} text text_type_digits-default text_color_inactive`}>{carbohydrates}</p>
+        </div>
+      </div>
     </div>
   )
+}
+
+ModalIngredientDetails.propTypes = {
+  name: PropTypes.string,
+  imgUrl: PropTypes.string,
+  fat: PropTypes.number,
+  proteins: PropTypes.number,
+  carbohydrates: PropTypes.number,
+  calories: PropTypes.number
 }
 
 export default ModalIngredientDetails

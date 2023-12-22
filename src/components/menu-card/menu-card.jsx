@@ -1,5 +1,6 @@
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './menu-card.module.css'
+import PropTypes from "prop-types";
 
 function MenuCard({name, price, imgUrl}) {
   return (
@@ -10,6 +11,12 @@ function MenuCard({name, price, imgUrl}) {
       <p className='text text_type_main-default'>{name}</p>
     </div>
   );
+}
+
+MenuCard.propType = {
+  name: PropTypes.string,
+  price: PropTypes.number,
+  imgUrl: PropTypes.string
 }
 
 export default MenuCard;

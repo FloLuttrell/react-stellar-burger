@@ -1,10 +1,16 @@
 import styles from './modal-overlay.module.css'
+import PropTypes from "prop-types";
 
 function ModalOverlay({children}){
   return(
     <div className={styles.modalOverlay}>
-      <h1>sdfs</h1>{children}
+      {children}
     </div>
   )
 }
+
+ModalOverlay.propTypes = {
+children: PropTypes.any
+}
+
 export default ModalOverlay
