@@ -1,0 +1,25 @@
+.detailsMainContent{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 480px;
+  text-align: center
+}
+
+.nutritionPanel{
+display: flex;
+  flex-direction: row;
+}
+
+.nutritionValues {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.margin {
+  margin: 0;
+  text-align: center
+}
