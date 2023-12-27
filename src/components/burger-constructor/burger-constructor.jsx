@@ -8,10 +8,14 @@ import ModalIngredientDetails from "../modal-ingredient-details/modal-ingredient
 function BurgerConstructor() {
   const [current, setCurrent] = useState("buns");
   const [ingredients, setIngredients] = useState({buns: [], sauces: [], mains: []});
-  const [modalIngredientOpened, setModalIngredientOpened] = useState('');
+  const [modalIngredientOpened, setModalIngredientOpened] = useState("");
 
   useEffect(async () => {
     const resp = await fetch(`https://norma.nomoreparties.space/api/ingredients`);
+    if (!resp.ok) {
+      console.error(new Error("Failed to fetch ingredients"));
+      return;
+    }
     const {data} = await resp.json();
     const newBuns = [];
     const newSauces = [];
@@ -28,18 +32,21 @@ function BurgerConstructor() {
       }
     }
     setIngredients({buns: newBuns, sauces: newSauces, mains: newMains});
+
   }, []);
 
   const mapIngredientToMenuCard = (items) => (
     <ul className={`${styles.ingredientsList} pt-6 pr-4 pb-10 pl-4`}>
       {items.map((item) => (
         <li key={item._id} className={styles.ingredientItem}>
-          <div onClick={()=>setModalIngredientOpened(item._id)}>
+          <div onClick={() => setModalIngredientOpened(item._id)}>
             <MenuCard name={item.name} price={item.price} imgUrl={item.image}></MenuCard>
           </div>
-          { modalIngredientOpened === item._id && (
-            <Modal title={'Детали ингридиента'} handleCloseBtnClick={()=>setModalIngredientOpened('')}>
-              <ModalIngredientDetails calories={item.calories} carbohydrates={item.carbohydrates} fat={item.fat} proteins={item.proteins} name={item.name} imgUrl={item.image_large}></ModalIngredientDetails>
+          {modalIngredientOpened === item._id && (
+            <Modal title={"Детали ингридиента"} handleCloseBtnClick={() => setModalIngredientOpened("")}>
+              <ModalIngredientDetails calories={item.calories} carbohydrates={item.carbohydrates} fat={item.fat}
+                                      proteins={item.proteins} name={item.name}
+                                      imgUrl={item.image_large}></ModalIngredientDetails>
             </Modal>
           )}
         </li>

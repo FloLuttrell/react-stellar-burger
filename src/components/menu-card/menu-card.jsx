@@ -13,7 +13,7 @@ function MenuCard({name, price, imgUrl}) {
   );
 }
 
-MenuCard.propType = {
+MenuCard.propTypes = {
   name: PropTypes.string,
   price: PropTypes.number,
   imgUrl: PropTypes.string

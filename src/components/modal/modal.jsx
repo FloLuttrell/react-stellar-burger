@@ -3,7 +3,7 @@ import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {createPortal} from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import PropTypes from "prop-types";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 const reactModal = document.getElementById("react-modal")
 function Modal({children, title, handleCloseBtnClick}) {
   useEffect(() => {
@@ -18,7 +18,7 @@ function Modal({children, title, handleCloseBtnClick}) {
     }
   }, []);
   return createPortal((
-    <ModalOverlay>
+    <ModalOverlay onOverlayClick={handleCloseBtnClick}>
       <div className={styles.mainWindow}>
         <div className={`${styles.modalHeader} pt-10`}>
           <p className="text text_type_main-large">{title}</p>
