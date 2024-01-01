@@ -4,51 +4,40 @@ import MenuCard from "../menu-card/menu-card";
 import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
 import ModalIngredientDetails from "../modal-ingredient-details/modal-ingredient-details";
+import {useDispatch, useSelector} from "react-redux";
+import {
+  selectIngredient,
+  unselectIngredient
+} from "../../services/actions/selectedIngredient";
+import {getIngredients} from "../../services/actions/allAvailableIngredients";
 
 function BurgerConstructor() {
   const [current, setCurrent] = useState("buns");
-  const [ingredients, setIngredients] = useState({buns: [], sauces: [], mains: []});
-  const [modalIngredientOpened, setModalIngredientOpened] = useState("");
+  const dispatch = useDispatch();
+
+  const selectedIngredient = useSelector((state) => {
+    return (
+      state.selectedIngredient.ingredient
+    );
+  });
+
+  const ingredientsData = useSelector(state => state.allAvailableIngredients);
 
   useEffect(async () => {
-    const resp = await fetch(`https://norma.nomoreparties.space/api/ingredients`);
-    if (!resp.ok) {
-      console.error(new Error("Failed to fetch ingredients"));
-      return;
-    }
-    const {data} = await resp.json();
-    const newBuns = [];
-    const newSauces = [];
-    const newMains = [];
-    for (const item of data) {
-      if (item.type === "bun") {
-        newBuns.push(item);
-      }
-      if (item.type === "sauce") {
-        newSauces.push(item);
-      }
-      if (item.type === "main") {
-        newMains.push(item);
-      }
-    }
-    setIngredients({buns: newBuns, sauces: newSauces, mains: newMains});
-
+    dispatch(getIngredients());
   }, []);
 
+  const ingredients = ingredientsData.data ?? { buns:[], sauces:[], mains:[] };
   const mapIngredientToMenuCard = (items) => (
     <ul className={`${styles.ingredientsList} pt-6 pr-4 pb-10 pl-4`}>
       {items.map((item) => (
         <li key={item._id} className={styles.ingredientItem}>
-          <div onClick={() => setModalIngredientOpened(item._id)}>
-            <MenuCard name={item.name} price={item.price} imgUrl={item.image}></MenuCard>
+          <div onClick={() => {
+            dispatch(selectIngredient(item._id))
+
+          }}>
+            <MenuCard _id={item._id} name={item.name} price={item.price} imgUrl={item.image}></MenuCard>
           </div>
-          {modalIngredientOpened === item._id && (
-            <Modal title={"Детали ингридиента"} handleCloseBtnClick={() => setModalIngredientOpened("")}>
-              <ModalIngredientDetails calories={item.calories} carbohydrates={item.carbohydrates} fat={item.fat}
-                                      proteins={item.proteins} name={item.name}
-                                      imgUrl={item.image_large}></ModalIngredientDetails>
-            </Modal>
-          )}
         </li>
       ))}
     </ul>
@@ -77,7 +66,11 @@ function BurgerConstructor() {
           {mapIngredientToMenuCard(ingredients.mains)}
         </div>
       </div>
-
+      {selectedIngredient && (
+        <Modal title={"Детали ингридиента"} handleCloseBtnClick={() => dispatch(unselectIngredient())}>
+          <ModalIngredientDetails></ModalIngredientDetails>
+        </Modal>
+      )}
     </div>
   );
 }
