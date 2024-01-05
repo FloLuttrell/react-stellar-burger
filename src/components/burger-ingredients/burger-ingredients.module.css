@@ -49,9 +49,3 @@
   width: 90%;
   gap: 40px;
 }
-
-.ingredientItem{
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}

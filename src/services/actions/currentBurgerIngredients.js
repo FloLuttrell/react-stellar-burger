@@ -1,5 +1,6 @@
 export const ADD_BURGER_INGREDIENT = "ADD_BURGER_INGREDIENT";
 export const REMOVE_BURGER_INGREDIENT = "REMOVE_BURGER_INGREDIENT";
+export const MOVE_BURGER_INGREDIENT = "MOVE_BURGER_INGREDIENT";
 
 export const addBurgerIngredient = (ingredientId) => {
   return (dispatch, getState) => {
@@ -21,5 +22,11 @@ export const addBurgerIngredient = (ingredientId) => {
 export const removeBurgerIngredient = (itemId) => {
   return (dispatch) => {
     dispatch({type: REMOVE_BURGER_INGREDIENT, itemId})
+  }
+}
+
+export const moveBurgerIngredient = (srcItemId, targetItemId) => {
+  return (dispatch) => {
+    dispatch({type: MOVE_BURGER_INGREDIENT, srcItemId, targetItemId})
   }
 }

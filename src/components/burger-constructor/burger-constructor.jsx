@@ -1,14 +1,11 @@
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import MenuCard from "../menu-card/menu-card";
 import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
 import ModalIngredientDetails from "../modal-ingredient-details/modal-ingredient-details";
 import {useDispatch, useSelector} from "react-redux";
-import {
-  selectIngredient,
-  unselectIngredient
-} from "../../services/actions/selectedIngredient";
+import {selectIngredient, unselectIngredient} from "../../services/actions/selectedIngredient";
 import {getIngredients} from "../../services/actions/allAvailableIngredients";
 
 function BurgerConstructor() {
@@ -27,13 +24,35 @@ function BurgerConstructor() {
     dispatch(getIngredients());
   }, []);
 
-  const ingredients = ingredientsData.data ?? { buns:[], sauces:[], mains:[] };
+  const scrollAreaRef = useRef();
+  const bunRef = useRef();
+  const sauceRef = useRef();
+  const mainRef = useRef();
+  const handleIngredientListScroll = useCallback(() => {
+    const scrollRect = scrollAreaRef.current.getBoundingClientRect();
+    const bunRect = bunRef.current.getBoundingClientRect();
+    const sauceRect = sauceRef.current.getBoundingClientRect();
+    const mainRect = mainRef.current.getBoundingClientRect();
+    const bunDistance = Math.abs(scrollRect.top - bunRect.top);
+    const sauceDistance = Math.abs(scrollRect.top - sauceRect.top);
+    const mainDistance = Math.abs(scrollRect.top - mainRect.top);
+    const tabByDistnce = {
+      [bunDistance]: "buns",
+      [sauceDistance]: "sauces",
+      [mainDistance]: "fillings"
+    };
+    const minDistance = Math.min(bunDistance, sauceDistance, mainDistance);
+    setCurrent(tabByDistnce[minDistance])
+  }, [])
+
+
+  const ingredients = ingredientsData.data ?? {buns: [], sauces: [], mains: []};
   const mapIngredientToMenuCard = (items) => (
     <ul className={`${styles.ingredientsList} pt-6 pr-4 pb-10 pl-4`}>
       {items.map((item) => (
         <li key={item._id} className={styles.ingredientItem}>
           <div onClick={() => {
-            dispatch(selectIngredient(item._id))
+            dispatch(selectIngredient(item._id));
 
           }}>
             <MenuCard _id={item._id} name={item.name} price={item.price} imgUrl={item.image}></MenuCard>
@@ -44,6 +63,7 @@ function BurgerConstructor() {
   );
   return (
     <div className={styles.content}>
+      <div className="asdasd"></div>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <div className={`${styles.ingredientTypes} pb-10`}>
         <Tab value="buns" active={current === "buns"} onClick={setCurrent}>
@@ -57,12 +77,12 @@ function BurgerConstructor() {
         </Tab>
       </div>
       <div className={`${styles.ingredientItems}`}>
-        <div className={`${styles.scrollWrapper} custom-scroll`}>
-          <h2 className="text text_type_main-medium mb-6">Булки</h2>
+        <div ref={scrollAreaRef} className={`${styles.scrollWrapper} custom-scroll`} onScroll={handleIngredientListScroll}>
+          <h2 ref={bunRef} className="text text_type_main-medium mb-6">Булки</h2>
           {mapIngredientToMenuCard(ingredients.buns)}
-          <h2 className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
+          <h2 ref={sauceRef} className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
           {mapIngredientToMenuCard(ingredients.sauces)}
-          <h2 className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
+          <h2 ref={mainRef} className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
           {mapIngredientToMenuCard(ingredients.mains)}
         </div>
       </div>
