@@ -2,7 +2,6 @@ export const SELECT_INGREDIENT_FOR_MODAL = 'SELECT_INGREDIENT_FOR_MODAL'
 export const UNSELECT_INGREDIENT_FOR_MODAL = 'UNSELECT_INGREDIENT_FOR_MODAL'
 export const selectIngredient = (ingredientId) => {
   return (dispatch, getState)=>{
-    console.log("ingredientId")
     const state = getState();
     const allAvailableIngredients = state.allAvailableIngredients;
     const buns = allAvailableIngredients.data?.buns ?? [];
