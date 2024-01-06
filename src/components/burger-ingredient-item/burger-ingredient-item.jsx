@@ -3,6 +3,8 @@ import {moveBurgerIngredient, removeBurgerIngredient} from "../../services/actio
 import {useDispatch} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
 import styles from './burger-ingredient-item.module.css'
+import PropTypes from "prop-types";
+import MenuCard from "../menu-card/menu-card";
 
 function BurgerIngredientItem({item}) {
   const dispatch = useDispatch();
@@ -45,5 +47,9 @@ function BurgerIngredientItem({item}) {
     </div>
   );
 }
+
+BurgerIngredientItem.propTypes = {
+  item: PropTypes.object,
+};
 
 export default BurgerIngredientItem;
