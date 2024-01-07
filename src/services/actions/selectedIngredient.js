@@ -18,7 +18,5 @@ export const selectIngredient = (ingredientId) => {
 }
 
 export const unselectIngredient = () => {
-  return (dispatch) => {
-    dispatch({ type: UNSELECT_INGREDIENT_FOR_MODAL })
-  }
+  return { type: UNSELECT_INGREDIENT_FOR_MODAL }
 }

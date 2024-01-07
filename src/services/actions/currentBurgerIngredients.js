@@ -20,13 +20,9 @@ export const addBurgerIngredient = (ingredientId) => {
 };
 
 export const removeBurgerIngredient = (itemId) => {
-  return (dispatch) => {
-    dispatch({type: REMOVE_BURGER_INGREDIENT, itemId})
-  }
+    return  {type: REMOVE_BURGER_INGREDIENT, itemId}
 }
 
 export const moveBurgerIngredient = (srcItemId, targetItemId) => {
-  return (dispatch) => {
-    dispatch({type: MOVE_BURGER_INGREDIENT, srcItemId, targetItemId})
-  }
+  return {type: MOVE_BURGER_INGREDIENT, srcItemId, targetItemId}
 }

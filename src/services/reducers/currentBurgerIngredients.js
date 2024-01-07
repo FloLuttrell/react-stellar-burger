@@ -12,17 +12,16 @@ const initialState = {
 
 let itemId = 1;
 
-const calculateTotalPrice = (ingredients) => {
-  let totalPrice = 0;
-  for (const item of ingredients) {
-    if (item) {
-      totalPrice = totalPrice + item.price;
-    }
-  }
-  return totalPrice;
-};
-
 export const currentBurgerIngredientsReducer = (state = initialState, action) => {
+  const calculateTotalPrice = (ingredients) => {
+    let totalPrice = 0;
+    for (const item of ingredients) {
+      if (item) {
+        totalPrice = totalPrice + item.price;
+      }
+    }
+    return totalPrice;
+  };
   switch (action.type) {
     case ADD_BURGER_INGREDIENT: {
       const ingr = {...action.ingredient};

@@ -2,19 +2,15 @@ import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger
 import {moveBurgerIngredient, removeBurgerIngredient} from "../../services/actions/currentBurgerIngredients";
 import {useDispatch} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
-import styles from './burger-ingredient-item.module.css'
+import styles from './burger-constructor-item.module.css'
 import PropTypes from "prop-types";
-import MenuCard from "../menu-card/menu-card";
 
-function BurgerIngredientItem({item}) {
+function BurgerConstructorItem({item}) {
   const dispatch = useDispatch();
 
-  const [{opacity}, dragRef, dragPreviewRef] = useDrag(() => ({
+  const [, dragRef, dragPreviewRef] = useDrag(() => ({
       type: "BURGER_ITEM",
       item: {itemId: item.itemId},
-      collect: (monitor) => ({
-        opacity: monitor.isDragging() ? 0.5 : 1
-      })
     }),
     []
   );
@@ -48,8 +44,8 @@ function BurgerIngredientItem({item}) {
   );
 }
 
-BurgerIngredientItem.propTypes = {
+BurgerConstructorItem.propTypes = {
   item: PropTypes.object,
 };
 
-export default BurgerIngredientItem;
+export default BurgerConstructorItem;

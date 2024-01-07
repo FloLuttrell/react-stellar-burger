@@ -1,3 +1,6 @@
+import {API_BASE_URL} from "../../utils/consts";
+import {request} from "../../utils/functions";
+
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILURE = 'GET_INGREDIENTS_FAILURE';
@@ -8,8 +11,7 @@ export const getIngredients = () => {
   return async (dispatch) => {
     dispatch({ type: GET_INGREDIENTS_REQUEST });
     try {
-      const resp = await fetch(`https://norma.nomoreparties.space/api/ingredients`);
-      const {data} = await resp.json();
+      const {data} = await request(`${API_BASE_URL}/ingredients`);
       const newBuns = [];
       const newSauces = [];
       const newMains = [];

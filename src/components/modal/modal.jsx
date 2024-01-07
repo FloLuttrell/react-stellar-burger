@@ -3,13 +3,13 @@ import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {createPortal} from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import PropTypes from "prop-types";
-import {useEffect, useRef} from "react";
+import {useEffect} from "react";
 const reactModal = document.getElementById("react-modal")
-function Modal({children, title, handleCloseBtnClick}) {
+function Modal({children, title, onClose}) {
   useEffect(() => {
     const handler = (ev) => {
       if (ev.key === "Escape") {
-        handleCloseBtnClick();
+        onClose();
       }
     }
     document.addEventListener("keydown", handler);
@@ -18,11 +18,11 @@ function Modal({children, title, handleCloseBtnClick}) {
     }
   }, []);
   return createPortal((
-    <ModalOverlay onOverlayClick={handleCloseBtnClick}>
+    <ModalOverlay onOverlayClick={onClose}>
       <div className={styles.mainWindow}>
         <div className={`${styles.modalHeader} pt-10`}>
           <p className="text text_type_main-large">{title}</p>
-          <div className={styles.closeIcon}><CloseIcon type="primary" onClick={handleCloseBtnClick}/></div>
+          <div className={styles.closeIcon}><CloseIcon type="primary" onClick={onClose}/></div>
         </div>
         {children}
       </div>
@@ -32,7 +32,7 @@ function Modal({children, title, handleCloseBtnClick}) {
 Modal.propTypes = {
   children: PropTypes.any,
   title: PropTypes.string,
-  handleCloseBtnClick: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired
 }
 
 

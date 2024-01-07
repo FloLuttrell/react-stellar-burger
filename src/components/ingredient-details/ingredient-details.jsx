@@ -1,7 +1,7 @@
-import styles from "./modal-ingredient-details.module.css";
+import styles from "./ingredient-details.module.css";
 import {useSelector} from "react-redux";
 
-function ModalIngredientDetails() {
+function IngredientDetails() {
   const {ingredient} = useSelector((state) => {
     return (
       state.selectedIngredient
@@ -33,8 +33,4 @@ function ModalIngredientDetails() {
   );
 }
 
-ModalIngredientDetails.propTypes = {
-
-};
-
-export default ModalIngredientDetails;
+export default IngredientDetails;
