@@ -69,10 +69,16 @@ function BurgerConstructor() {
             <div className={`${styles.finalPrice} pt-10 pb-10`}>
               <p className={`${styles.priceNumber} text text_type_digits-medium`}>{currentBurgerIngredients.totalPrice}
                 <CurrencyIcon type="primary"/></p>
-              <Button htmlType="button" type="primary" size="large" onClick={() => {
-                setModalOpened(true);
-                dispatch(sendOrder());
-              }}>
+              <Button
+                htmlType="button"
+                type="primary"
+                size="large"
+                disabled={!currentBurgerIngredients.bun}
+                onClick={() => {
+                  setModalOpened(true);
+                  dispatch(sendOrder());
+                }}
+              >
                 Оформить заказ
               </Button>
             </div>
