@@ -1,76 +1,95 @@
-import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useEffect, useState} from "react";
-import MenuCard from "../menu-card/menu-card";
+import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {useState} from "react";
 import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
-import ModalIngredientDetails from "../modal-ingredient-details/modal-ingredient-details";
+import OrderDetails from "../order-details/order-details";
+import {useDispatch, useSelector} from "react-redux";
+import {useDrop} from "react-dnd";
+import {addBurgerIngredient} from "../../services/actions/currentBurgerIngredients";
+import {sendOrder} from "../../services/actions/order";
+import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
 
 function BurgerConstructor() {
-  const [current, setCurrent] = useState("buns");
-  const [ingredients, setIngredients] = useState({buns: [], sauces: [], mains: []});
-  const [modalIngredientOpened, setModalIngredientOpened] = useState('');
 
-  useEffect(async () => {
-    const resp = await fetch(`https://norma.nomoreparties.space/api/ingredients`);
-    const {data} = await resp.json();
-    const newBuns = [];
-    const newSauces = [];
-    const newMains = [];
-    for (const item of data) {
-      if (item.type === "bun") {
-        newBuns.push(item);
-      }
-      if (item.type === "sauce") {
-        newSauces.push(item);
-      }
-      if (item.type === "main") {
-        newMains.push(item);
-      }
-    }
-    setIngredients({buns: newBuns, sauces: newSauces, mains: newMains});
-  }, []);
+  const dispatch = useDispatch();
+  const [modalOpened, setModalOpened] = useState(false);
 
-  const mapIngredientToMenuCard = (items) => (
-    <ul className={`${styles.ingredientsList} pt-6 pr-4 pb-10 pl-4`}>
-      {items.map((item) => (
-        <li key={item._id} className={styles.ingredientItem}>
-          <div onClick={()=>setModalIngredientOpened(item._id)}>
-            <MenuCard name={item.name} price={item.price} imgUrl={item.image}></MenuCard>
-          </div>
-          { modalIngredientOpened === item._id && (
-            <Modal title={'Детали ингридиента'} handleCloseBtnClick={()=>setModalIngredientOpened('')}>
-              <ModalIngredientDetails calories={item.calories} carbohydrates={item.carbohydrates} fat={item.fat} proteins={item.proteins} name={item.name} imgUrl={item.image_large}></ModalIngredientDetails>
-            </Modal>
-          )}
-        </li>
-      ))}
-    </ul>
+  const currentBurgerIngredients = useSelector(store => store.currentBurgerIngredients);
+  const [, dropRef] = useDrop(
+    () => ({
+      accept: "MENU_CARD_ITEM",
+      drop: (item) => {
+        dispatch(addBurgerIngredient(item._id));
+      }
+    }),
+    []
   );
-  return (
-    <div className={styles.content}>
-      <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-      <div className={`${styles.ingredientTypes} pb-10`}>
-        <Tab value="buns" active={current === "buns"} onClick={setCurrent}>
-          Булки
-        </Tab>
-        <Tab value="sauces" active={current === "sauces"} onClick={setCurrent}>
-          Соусы
-        </Tab>
-        <Tab value="fillings" active={current === "fillings"} onClick={setCurrent}>
-          Начинки
-        </Tab>
-      </div>
-      <div className={`${styles.ingredientItems}`}>
-        <div className={`${styles.scrollWrapper} custom-scroll`}>
-          <h2 className="text text_type_main-medium mb-6">Булки</h2>
-          {mapIngredientToMenuCard(ingredients.buns)}
-          <h2 className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
-          {mapIngredientToMenuCard(ingredients.sauces)}
-          <h2 className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
-          {mapIngredientToMenuCard(ingredients.mains)}
-        </div>
-      </div>
 
+  return (
+    <div className={`${styles.burgerIngredients} pl-4`}>
+      <div className={"pt-25"}></div>
+      <div ref={dropRef} className={styles.ingredientsList}>
+        <ul className={`${styles.ingredientsListTop}`}>
+          {currentBurgerIngredients.bun && (
+            <li className={`pb-2 pl-8`}>
+              <ConstructorElement
+                type="top"
+                isLocked={true}
+                text={currentBurgerIngredients.bun.name + " (верх)"}
+                price={currentBurgerIngredients.bun.price}
+                thumbnail={currentBurgerIngredients.bun.image}
+              />
+            </li>
+          )}
+        </ul>
+        <div className={`${styles.ingredientsListMiddle}`}>
+          <ul className={`${styles.burgerScrollWrapper} custom-scroll`}>
+            {currentBurgerIngredients.mainsAndSauces.map((item) => {
+              return (
+                <li key={item.itemId} className={`pb-2 pt-2`}>
+                  <BurgerConstructorItem item={item}></BurgerConstructorItem>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <ul className={styles.ingredientsListBottom}>
+          {currentBurgerIngredients.bun && (
+            <li className={`pt-2 pl-8`}>
+              <ConstructorElement
+                type="bottom"
+                isLocked={true}
+                text={currentBurgerIngredients.bun.name + " (низ)"}
+                price={currentBurgerIngredients.bun.price}
+                thumbnail={currentBurgerIngredients.bun.image}
+              />
+            </li>
+          )}
+          <li>
+            <div className={`${styles.finalPrice} pt-10 pb-10`}>
+              <p className={`${styles.priceNumber} text text_type_digits-medium`}>{currentBurgerIngredients.totalPrice}
+                <CurrencyIcon type="primary"/></p>
+              <Button
+                htmlType="button"
+                type="primary"
+                size="large"
+                disabled={!currentBurgerIngredients.bun}
+                onClick={() => {
+                  setModalOpened(true);
+                  dispatch(sendOrder());
+                }}
+              >
+                Оформить заказ
+              </Button>
+            </div>
+          </li>
+        </ul>
+      </div>
+      {modalOpened && (
+        <Modal title={""} onClose={() => setModalOpened(false)}>
+          <OrderDetails imgUrl></OrderDetails>
+        </Modal>
+      )}
     </div>
   );
 }
