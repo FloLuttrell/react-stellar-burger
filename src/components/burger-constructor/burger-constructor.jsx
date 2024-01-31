@@ -8,8 +8,11 @@ import {useDrop} from "react-dnd";
 import {addBurgerIngredient} from "../../services/actions/currentBurgerIngredients";
 import {sendOrder} from "../../services/actions/order";
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
+import {getAuthTokens} from "../../utils/functions";
+import {useNavigate} from "react-router-dom";
 
 function BurgerConstructor() {
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const [modalOpened, setModalOpened] = useState(false);
@@ -24,6 +27,7 @@ function BurgerConstructor() {
     }),
     []
   );
+
 
   return (
     <div className={`${styles.burgerIngredients} pl-4`}>
@@ -75,8 +79,13 @@ function BurgerConstructor() {
                 size="large"
                 disabled={!currentBurgerIngredients.bun}
                 onClick={() => {
-                  setModalOpened(true);
-                  dispatch(sendOrder());
+                  const { accessToken } = getAuthTokens();
+                  if (accessToken) {
+                    setModalOpened(true);
+                    dispatch(sendOrder());
+                  } else {
+                    navigate("/login")
+                  }
                 }}
               >
                 Оформить заказ

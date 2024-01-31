@@ -1,28 +1,15 @@
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useRef, useState} from "react";
 import MenuCard from "../menu-card/menu-card";
 import styles from "./burger-ingredients.module.css";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import {useDispatch, useSelector} from "react-redux";
-import {selectIngredient, unselectIngredient} from "../../services/actions/selectedIngredient";
-import {getIngredients} from "../../services/actions/allAvailableIngredients";
+import {useSelector} from "react-redux";
+import {useLocation, useNavigate} from "react-router-dom";
 
 function BurgerIngredients() {
   const [current, setCurrent] = useState("buns");
-  const dispatch = useDispatch();
-
-  const selectedIngredient = useSelector((state) => {
-    return (
-      state.selectedIngredient.ingredient
-    );
-  });
 
   const ingredientsData = useSelector(state => state.allAvailableIngredients);
-
-  useEffect( () => {
-    dispatch(getIngredients());
-  }, [dispatch]);
+  const ingredients = ingredientsData.data ?? {buns: [], sauces: [], mains: []};
 
   const scrollAreaRef = useRef();
   const bunRef = useRef();
@@ -42,18 +29,18 @@ function BurgerIngredients() {
       [mainDistance]: "fillings"
     };
     const minDistance = Math.min(bunDistance, sauceDistance, mainDistance);
-    setCurrent(tabByDistnce[minDistance])
-  }, [])
+    setCurrent(tabByDistnce[minDistance]);
+  }, []);
 
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const ingredients = ingredientsData.data ?? {buns: [], sauces: [], mains: []};
   const mapIngredientToMenuCard = (items) => (
     <ul className={`${styles.ingredientsList} pt-6 pr-4 pb-10 pl-4`}>
       {items.map((item) => (
         <li key={item._id} className={styles.ingredientItem}>
           <div onClick={() => {
-            dispatch(selectIngredient(item._id));
-
+            navigate(`/ingredients/${item._id}`, {state: {backgroundLocation: location}});
           }}>
             <MenuCard _id={item._id} name={item.name} price={item.price} imgUrl={item.image}></MenuCard>
           </div>
@@ -77,7 +64,8 @@ function BurgerIngredients() {
         </Tab>
       </div>
       <div className={`${styles.ingredientItems}`}>
-        <div ref={scrollAreaRef} className={`${styles.scrollWrapper} custom-scroll`} onScroll={handleIngredientListScroll}>
+        <div ref={scrollAreaRef} className={`${styles.scrollWrapper} custom-scroll`}
+             onScroll={handleIngredientListScroll}>
           <h2 ref={bunRef} className="text text_type_main-medium mb-6">Булки</h2>
           {mapIngredientToMenuCard(ingredients.buns)}
           <h2 ref={sauceRef} className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
@@ -86,11 +74,6 @@ function BurgerIngredients() {
           {mapIngredientToMenuCard(ingredients.mains)}
         </div>
       </div>
-      {selectedIngredient && (
-        <Modal title={"Детали ингридиента"} onClose={() => dispatch(unselectIngredient())}>
-          <IngredientDetails></IngredientDetails>
-        </Modal>
-      )}
     </div>
   );
 }

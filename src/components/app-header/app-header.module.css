@@ -65,6 +65,11 @@
   color: #8585AD;
 }
 
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
 .linkActive {
   cursor: pointer;
   text-decoration: none;
