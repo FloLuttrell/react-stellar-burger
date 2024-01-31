@@ -1,0 +1,29 @@
+.profile {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 1280px;
+  margin: auto;
+}
+.menu {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu ul li {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  cursor: pointer;
+}
+.linkActive {
+  cursor: pointer;
+  text-decoration: none;
+  color: #F2F2F3;
+}

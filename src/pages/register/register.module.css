@@ -1,0 +1,12 @@
+.registerPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: calc(100vh - 88px);
+}
+
+link {
+  text-decoration: none;
+  /*color: rgb(76,76,255);*/
+}
