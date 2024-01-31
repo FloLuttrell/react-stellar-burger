@@ -10,7 +10,7 @@ import {OrderFeedPage} from "../../pages/order-feed/order-feed-page";
 import {ProfileInfoPage} from "../../pages/profile-info/profile-info";
 import {ProfileOrderListPage} from "../../pages/profile-order-list/profile-order-list";
 import {useDispatch} from "react-redux";
-import {fetchJson, refreshTokens} from "../../utils/functions";
+import {fetchJson} from "../../utils/functions";
 import {API_BASE_URL} from "../../utils/consts";
 import {setUser} from "../../services/actions/auth";
 import Modal from "../modal/modal";
@@ -18,6 +18,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import {IngredientPage} from "../../pages/ingredient/ingredient";
 import {getIngredients} from "../../services/actions/allAvailableIngredients";
 import {WithAuthPage, WithoutAuthPage} from "../protected-route/protected-route";
+import {refreshTokens} from "../../utils/api";
 
 
 function App() {

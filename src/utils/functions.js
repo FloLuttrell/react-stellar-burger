@@ -1,13 +1,5 @@
-import {API_BASE_URL} from "./consts";
 import {BURGER_APP_ACCESS_TOKEN_KEY, BURGER_APP_REFRESH_TOKEN_KEY} from "../services/reducers/auth";
-
-export const request = async (url, options) => {
-  const resp = await fetch(url, options);
-  if (!resp.ok) {
-    throw new Error(`Ошибка ${resp.status}`);
-  }
-  return resp.json();
-};
+import {refreshTokens} from "./api";
 
 export const fetchJson = async (url, options) => {
   const newOptions = {...options};
@@ -56,23 +48,6 @@ export const fetchJsonWithAuth = async (url, options) => {
     }
   }
   throw new Error("Unable make fetchJsonWithAuth");
-};
-
-export const refreshTokens = async () => {
-  const {refreshToken} = getAuthTokens();
-  if (!refreshToken) {
-    throw new Error("Unable to refresh token");
-  }
-  const tokenResp = await fetchJson(`${API_BASE_URL}/auth/token`, {
-    method: "POST",
-    body: {token: refreshToken}
-  });
-  if (!tokenResp.resp.ok) {
-    setAuthTokens({refreshToken: undefined, accessToken: undefined});
-    throw new Error("Unable to refresh token");
-  }
-  setAuthTokens(tokenResp.data);
-  return getAuthTokens();
 };
 
 export const setAuthTokens = ({refreshToken, accessToken}) => {
