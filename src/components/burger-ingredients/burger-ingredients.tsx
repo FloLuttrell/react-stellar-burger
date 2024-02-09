@@ -53,7 +53,6 @@ export const BurgerIngredients: React.FunctionComponent = () => {
   );
   return (
     <div className={styles.content}>
-      <div className="asdasd"></div>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <div className={`${styles.ingredientTypes} pb-10`}>
         <Tab value="buns" active={current === "buns"} onClick={setCurrent}>

@@ -5,6 +5,7 @@ export const BURGER_APP_ACCESS_TOKEN_KEY = "BURGER_APP_ACCESS_TOKEN_KEY";
 
 
 type Auth = {
+  pending: boolean,
   user: {
     email: string,
     name: string
@@ -12,6 +13,7 @@ type Auth = {
 }
 
 const authInitialState: Auth = {
+  pending: true,
   user: {
     email: "",
     name: "",
@@ -22,6 +24,9 @@ const authSlice = createSlice({
   name: "auth",
   initialState: authInitialState,
   reducers: {
+    setAuthPending(state, action: PayloadAction<boolean>) {
+      state.pending = action.payload;
+    },
     setUser(state, action: PayloadAction<Auth["user"]>) {
       const {email, name} = action.payload;
       state.user = {email, name}
@@ -32,5 +37,5 @@ const authSlice = createSlice({
   }
 })
 
-export const { setUser, resetAuth} = authSlice.actions;
+export const { setUser, resetAuth, setAuthPending} = authSlice.actions;
 export default authSlice.reducer;

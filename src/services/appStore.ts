@@ -1,6 +1,7 @@
 import authReducer from "./reducers/auth";
 import allAvailableIngredientsReducer from "./reducers/allAvailableIngredients";
 import orderReducer from "./reducers/order";
+import orderFeedReducer from "./reducers/orderFeed";
 import currentBurgerIngredientsReducer from "./reducers/currentBurgerIngredients";
 import {configureStore} from "@reduxjs/toolkit";
 
@@ -11,6 +12,7 @@ export const appStore = configureStore({
     allAvailableIngredients: allAvailableIngredientsReducer,
     currentBurgerIngredients: currentBurgerIngredientsReducer,
     order: orderReducer,
+    orderFeed: orderFeedReducer,
   },
 })
 export type RootState = ReturnType<typeof appStore.getState>

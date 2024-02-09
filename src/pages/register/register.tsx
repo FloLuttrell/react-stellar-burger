@@ -5,7 +5,7 @@ import styles from "./register.module.css";
 import {fetchJson, setAuthTokens} from "../../utils/functions";
 import {API_BASE_URL} from "../../utils/consts";
 import {useAppDispatch} from "../../hooks";
-import {setUser} from "../../services/reducers/auth";
+import {setAuthPending, setUser} from "../../services/reducers/auth";
 import {AppHeader} from "../../components/app-header/app-header";
 
 export const RegisterPage: React.FunctionComponent = () => {
@@ -23,6 +23,7 @@ export const RegisterPage: React.FunctionComponent = () => {
       <form className={`${styles.registerPage}`} onSubmit={async (ev) => {
         ev.preventDefault();
         try {
+          dispatch(setAuthPending(true));
           const {resp, data} = await fetchJson(`${API_BASE_URL}/auth/register`, {
             method: "POST",
             body: {
@@ -42,6 +43,8 @@ export const RegisterPage: React.FunctionComponent = () => {
           }
         } catch (err) {
           setErrorMessage("Unknown error happened");
+        } finally {
+          dispatch(setAuthPending(false));
         }
       }}>
         <h2 className={`mb-6 text text_type_main-medium`}>

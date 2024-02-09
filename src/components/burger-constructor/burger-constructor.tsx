@@ -31,9 +31,8 @@ export const BurgerConstructor: React.FunctionComponent = () => {
         }
       }
     }),
-    []
+    [allAvailableIngredients]
   );
-
 
   return (
     <div className={`${styles.burgerIngredients} pl-4`}>
