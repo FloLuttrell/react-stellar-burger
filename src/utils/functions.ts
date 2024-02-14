@@ -1,5 +1,6 @@
 import {BURGER_APP_ACCESS_TOKEN_KEY, BURGER_APP_REFRESH_TOKEN_KEY} from "../services/reducers/auth";
 import {refreshTokens} from "./api";
+import {WS_ORDER_FEED_URL} from "./consts";
 
 export type AuthTokens = {
   accessToken: string,
@@ -73,3 +74,9 @@ export const getAuthTokens = (): Partial<AuthTokens> => {
   const accessToken = localStorage.getItem(BURGER_APP_ACCESS_TOKEN_KEY) ?? undefined;
   return {refreshToken, accessToken};
 };
+
+export const buildWsOrderFeedUrl = () => {
+  const {accessToken} = getAuthTokens();
+  const fixedToken = (accessToken ?? "").split(" ")[1];
+  return `${WS_ORDER_FEED_URL}?token=${fixedToken}`;
+}

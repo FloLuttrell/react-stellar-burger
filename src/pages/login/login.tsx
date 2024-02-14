@@ -1,7 +1,7 @@
 import styles from "./login.module.css";
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {fetchJson, setAuthTokens} from "../../utils/functions";
 import {API_BASE_URL} from "../../utils/consts";
 import {useAppDispatch} from "../../hooks";
@@ -16,6 +16,7 @@ export const LoginPage: React.FunctionComponent = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <div>
@@ -34,7 +35,7 @@ export const LoginPage: React.FunctionComponent = () => {
           if (resp.ok && data.success === true) {
             setAuthTokens(data);
             dispatch(setUser(data.user));
-            navigate("/");
+            navigate(location.state?.redirectTo ?? "/");
           } else if (!resp.ok && data.success === false) {
             setErrorMessage(data.message);
           } else {

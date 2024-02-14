@@ -1,10 +1,11 @@
 import {useLocation, useNavigate} from "react-router-dom";
-import {useAppDispatch, useAppSelector, useProfileOrderFeed} from "../../hooks";
+import {useAppDispatch, useAppSelector, useOrderFeed} from "../../hooks";
 import {OrderCard} from "../../components/order-card/order-card";
+import {buildWsOrderFeedUrl} from "../../utils/functions";
 
 
 export const ProfileOrderListPage: React.FunctionComponent = () => {
-  useProfileOrderFeed(useAppDispatch())
+  useOrderFeed(useAppDispatch(), buildWsOrderFeedUrl())
   const orders = useAppSelector((s) => s.orderFeed.orders);
   const navigate = useNavigate()
   const location = useLocation()

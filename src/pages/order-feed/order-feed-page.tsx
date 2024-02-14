@@ -3,10 +3,11 @@ import {ReadyOrders} from "../../components/ready-orders/ready-orders";
 import {AppHeader} from "../../components/app-header/app-header";
 import styles from "./order-feed-page.module.css";
 import {useAppDispatch, useOrderFeed} from "../../hooks";
+import {WS_ORDER_FEED_ALL_URL} from "../../utils/consts";
 
 
 export const OrderFeedPage: React.FunctionComponent = () => {
-  useOrderFeed(useAppDispatch())
+  useOrderFeed(useAppDispatch(), WS_ORDER_FEED_ALL_URL);
   return (
     <>
       <div className={styles.feed}>

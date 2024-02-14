@@ -1,12 +1,13 @@
-import {Navigate} from "react-router-dom";
+import {Navigate, useLocation} from "react-router-dom";
 import React from "react";
 import {useAppSelector} from "../../hooks";
 
 
 export const WithAuthPage: React.FunctionComponent = ({children}) => {
   const authState = useAppSelector((s) => s.auth);
+  const location = useLocation();
   if (!authState.user.email && !authState.pending) {
-    return (<Navigate to="/login"></Navigate>);
+    return (<Navigate to="/login" state={{ redirectTo: location.pathname }}></Navigate>);
   }
   if (!authState.user.email) {
     return (<></>)

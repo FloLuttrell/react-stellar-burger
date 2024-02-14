@@ -1,8 +1,9 @@
-import {useAppDispatch, useProfileOrderFeed} from "../../hooks";
+import {useAppDispatch, useOrderFeed,} from "../../hooks";
 import {OrderInfo} from "../../components/order-info/order-info";
+import {buildWsOrderFeedUrl} from "../../utils/functions";
 
 export const ProfileOrderDetailPage: React.FunctionComponent = () => {
-  useProfileOrderFeed(useAppDispatch())
+  useOrderFeed(useAppDispatch(), buildWsOrderFeedUrl())
 
   return (
     <div>
