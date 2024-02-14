@@ -1,13 +1,16 @@
-import {Navigate} from "react-router-dom";
+import {Navigate, useLocation} from "react-router-dom";
 import React from "react";
-import PropTypes from "prop-types";
 import {useAppSelector} from "../../hooks";
 
 
 export const WithAuthPage: React.FunctionComponent = ({children}) => {
   const authState = useAppSelector((s) => s.auth);
+  const location = useLocation();
+  if (!authState.user.email && !authState.pending) {
+    return (<Navigate to="/login" state={{ redirectTo: location.pathname }}></Navigate>);
+  }
   if (!authState.user.email) {
-    return (<Navigate to="/login"></Navigate>);
+    return (<></>)
   }
   return (
     <>
@@ -20,7 +23,8 @@ export const WithoutAuthPage: React.FunctionComponent = ({children}) => {
   const authState = useAppSelector((s) => s.auth);
   if (authState.user.email) {
     return (<Navigate to="/profile"></Navigate>);
-  }  return (
+  }
+  return (
     <>
       {children}
     </>

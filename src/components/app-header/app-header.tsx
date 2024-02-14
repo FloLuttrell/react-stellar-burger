@@ -23,7 +23,7 @@ export const AppHeader: React.FunctionComponent = () => {
           </li>
 
           <li className={`pr-4`}>
-            <NavLink to="/order-feed" className={`${styles.headerLink} pl-5 pr-5`}>
+            <NavLink to="/feed" className={`${styles.headerLink} pl-5 pr-5`}>
               {({isActive}) => {
                 const iconType = isActive ? "primary" : "secondary";
                 const cls = isActive ? styles.linkActive : "text_color_inactive";

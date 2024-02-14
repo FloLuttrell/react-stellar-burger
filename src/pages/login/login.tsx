@@ -1,11 +1,11 @@
 import styles from "./login.module.css";
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {fetchJson, setAuthTokens} from "../../utils/functions";
 import {API_BASE_URL} from "../../utils/consts";
 import {useAppDispatch} from "../../hooks";
-import {setUser} from "../../services/reducers/auth";
+import {setAuthPending, setUser} from "../../services/reducers/auth";
 import {AppHeader} from "../../components/app-header/app-header";
 
 export const LoginPage: React.FunctionComponent = () => {
@@ -16,6 +16,7 @@ export const LoginPage: React.FunctionComponent = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <div>
@@ -23,6 +24,7 @@ export const LoginPage: React.FunctionComponent = () => {
       <form className={`${styles.login}`} onSubmit={async (ev) => {
         ev.preventDefault();
         try {
+          dispatch(setAuthPending(true));
           const {resp, data} = await fetchJson(`${API_BASE_URL}/auth/login`, {
             method: "POST",
             body: {
@@ -33,7 +35,7 @@ export const LoginPage: React.FunctionComponent = () => {
           if (resp.ok && data.success === true) {
             setAuthTokens(data);
             dispatch(setUser(data.user));
-            navigate("/");
+            navigate(location.state?.redirectTo ?? "/");
           } else if (!resp.ok && data.success === false) {
             setErrorMessage(data.message);
           } else {
@@ -41,6 +43,8 @@ export const LoginPage: React.FunctionComponent = () => {
           }
         } catch (err) {
           setErrorMessage("Unknown error happened");
+        } finally {
+          dispatch(setAuthPending(false));
         }
       }}>
         <h2 className={`mb-6 text text_type_main-medium`}>

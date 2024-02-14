@@ -16,9 +16,12 @@ import {getIngredients} from "../../services/actions/allAvailableIngredients";
 import {WithAuthPage, WithoutAuthPage} from "../protected-route/protected-route";
 import {refreshTokens} from "../../utils/api";
 import {useAppDispatch} from "../../hooks";
-import {setUser} from "../../services/reducers/auth";
+import {setAuthPending, setUser} from "../../services/reducers/auth";
 import {Modal} from "../modal/modal";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
+import {OrderFeedDetailPage} from "../../pages/order-feed-detail/order-feed-detail-page";
+import {OrderInfo} from "../order-info/order-info";
+import {ProfileOrderDetailPage} from "../../pages/profile-order-detail/profile-order-detail-page";
 
 
 export const App: React.FunctionComponent = () => {
@@ -27,6 +30,7 @@ export const App: React.FunctionComponent = () => {
   useEffect(() => {
     (async () => {
       try {
+        dispatch(setAuthPending(true));
         const {accessToken} = await refreshTokens();
         if (accessToken) {
           const {resp, data} = await fetchJson(`${API_BASE_URL}/auth/user`, {
@@ -41,6 +45,8 @@ export const App: React.FunctionComponent = () => {
         }
       } catch (err) {
         // todo: handle error
+      } finally {
+        dispatch(setAuthPending(false));
       }
     })()
   }, [dispatch]);
@@ -70,12 +76,13 @@ export const App: React.FunctionComponent = () => {
         <Route path="/reset-password" element={(<WithoutAuthPage><ResetPasswordPage/></WithoutAuthPage>)}></Route>
 
         <Route path="/profile" element={(<WithAuthPage><ProfilePage/></WithAuthPage>)}>
+          <Route path="orders/:orderId" element={<ProfileOrderDetailPage/>}></Route>
           <Route path="orders" element={<ProfileOrderListPage/>}></Route>
           <Route path="" element={<ProfileInfoPage/>}></Route>
         </Route>
-
         <Route path="/ingredients/:id" element={<IngredientPage/>}></Route>
-        <Route path="/order-feed" element={<OrderFeedPage/>}></Route>
+        <Route path="/feed/:orderId" element={<OrderFeedDetailPage/>}></Route>
+        <Route path="/feed" element={<OrderFeedPage/>}></Route>
         <Route path="/" element={<HomePage/>}></Route>
       </Routes>
       {backgroundLocation && (
@@ -83,6 +90,16 @@ export const App: React.FunctionComponent = () => {
           <Route path="/ingredients/:id" element={
             <Modal title={"Детали ингридиента"} onClose={() => navigate("/")}>
               <IngredientDetails></IngredientDetails>
+            </Modal>
+          }></Route>
+          <Route path="/feed/:orderId" element={
+            <Modal title="" onClose={() => navigate("/feed")}>
+              <OrderInfo></OrderInfo>
+            </Modal>
+          }></Route>
+          <Route path="/profile/orders/:orderId" element={
+            <Modal title="" onClose={() => navigate("/profile/orders")}>
+              <OrderInfo></OrderInfo>
             </Modal>
           }></Route>
         </Routes>

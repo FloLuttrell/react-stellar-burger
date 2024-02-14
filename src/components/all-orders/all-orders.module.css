@@ -1,0 +1,33 @@
+.orderList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  gap: 32px 24px;
+}
+
+.orderItem {
+  flex: 1 1 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.orderItems {
+  flex: 0 1 100%;
+  position: relative;
+  max-width: 600px;
+}
+
+.scrollWrapper {
+  position: absolute;
+  top:0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: scroll;
+}

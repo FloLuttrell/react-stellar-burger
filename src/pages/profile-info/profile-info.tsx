@@ -3,7 +3,7 @@ import {useEffect, useRef, useState} from "react";
 import {fetchJsonWithAuth} from "../../utils/functions";
 import {API_BASE_URL} from "../../utils/consts";
 import {useAppDispatch, useAppSelector} from "../../hooks";
-import {setUser} from "../../services/reducers/auth";
+import {setAuthPending, setUser} from "../../services/reducers/auth";
 
 export const ProfileInfoPage: React.FunctionComponent = () => {
   const dispatch = useAppDispatch();
@@ -34,6 +34,7 @@ export const ProfileInfoPage: React.FunctionComponent = () => {
       <form onSubmit={async (ev) => {
         ev.preventDefault();
         try {
+          dispatch(setAuthPending(true));
           const body: { email: string, name: string, password?: string } = {
             email: emailState.value,
             name: nameState.value
@@ -51,6 +52,9 @@ export const ProfileInfoPage: React.FunctionComponent = () => {
           }
         } catch (err) {
           setErrorMessage("Unknown error happened");
+        } finally {
+
+          dispatch(setAuthPending(false));
         }
       }}>
         <Input
