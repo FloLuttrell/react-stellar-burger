@@ -5,7 +5,7 @@ export type IngredientSelected = Ingredient & {
   itemId: string,
 }
 
-type CurrentBurgerIngredients = {
+export type CurrentBurgerIngredients = {
   bun?: IngredientSelected,
   mainsAndSauces: IngredientSelected[],
   totalPrice: number
@@ -46,9 +46,8 @@ const currentBurgerIngredientsSlice = createSlice({
       state.totalPrice = calculateTotalPrice([...state.mainsAndSauces, state.bun, state.bun]);
     },
     removeBurgerIngredient(state, action: PayloadAction<string>) {
-      let newState = {...state};
       const itemId = action.payload;
-      if (newState.bun?.itemId === itemId) {
+      if (state.bun?.itemId === itemId) {
         state.bun = undefined;
       } else {
         state.mainsAndSauces = state.mainsAndSauces.filter((it) => {
