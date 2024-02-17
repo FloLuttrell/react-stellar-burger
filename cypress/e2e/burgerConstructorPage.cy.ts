@@ -1,17 +1,19 @@
+import {API_BASE_URL} from "../../src/utils/consts";
+
 describe('burgerConstructorPage', function () {
   it('should work', function () {
     cy.viewport(1400, 1000);
     cy.visit('/');
     cy.intercept(
-      {method: "GET", url: "https://norma.nomoreparties.space/api/ingredients"},
+      {method: "GET", url: `${API_BASE_URL}/ingredients`},
       {fixture: "ingredients.json"}
     )
     cy.intercept(
-      {method: "POST", url: "https://norma.nomoreparties.space/api/auth/login"},
+      {method: "POST", url: `${API_BASE_URL}/auth/login`},
       {fixture: "login-success.json"}
     )
     cy.intercept(
-      {method: "POST", url: "https://norma.nomoreparties.space/api/orders"},
+      {method: "POST", url: `${API_BASE_URL}/orders`},
       {fixture: "order-success.json"}
     )
     //login
