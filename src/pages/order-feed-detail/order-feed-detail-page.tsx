@@ -1,16 +1,19 @@
 import {OrderInfo} from "../../components/order-info/order-info";
-import {useAppDispatch, useOrderFeed} from "../../hooks";
+import {useAppDispatch} from "../../hooks";
 import styles from "./order-feed-detail-page.module.css"
-import {AppHeader} from "../../components/app-header/app-header";
 import {WS_ORDER_FEED_ALL_URL} from "../../utils/consts";
+import {wsConnectionStart} from "../../services/reducers/orderFeed";
+import {useEffect} from "react";
 
 export const OrderFeedDetailPage: React.FunctionComponent = () => {
-  useOrderFeed(useAppDispatch(), WS_ORDER_FEED_ALL_URL);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(wsConnectionStart(WS_ORDER_FEED_ALL_URL))
+  }, [dispatch]);
   return (
-    <div>
-      <AppHeader></AppHeader>
+    <>
       <div className={styles.spacer}></div>
       <OrderInfo></OrderInfo>
-    </div>
+    </>
   )
 }

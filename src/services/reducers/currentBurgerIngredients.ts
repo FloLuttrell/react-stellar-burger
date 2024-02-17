@@ -11,7 +11,7 @@ export type CurrentBurgerIngredients = {
   totalPrice: number
 }
 
-const currentBurgerIngredientsInitialState: CurrentBurgerIngredients = {
+export const currentBurgerIngredientsInitialState: CurrentBurgerIngredients = {
   bun: undefined,
   mainsAndSauces: [],
   totalPrice: 0,

@@ -1,28 +1,43 @@
-import reducer, {resetAuth, setAuthPending, setUser} from './auth'
+import reducer, {authInitialState} from './auth'
+import {authLogin, authRefreshToken} from "../actions/auth";
 
 describe("auth reducer should work", () => {
   it("initiate state properly", () => {
-    expect(reducer(undefined, {} as any)).toEqual({
-      pending: true,
-      user: { name: "", email: ""}
+    expect(reducer(undefined, {} as any)).toEqual(authInitialState)
+  })
+  it("set pending with authRefreshToken action", () => {
+    expect(reducer(undefined, {type: authRefreshToken.pending.type})).toEqual({
+      tokens: {
+        pending: true,
+        accessToken: undefined,
+        refreshToken: undefined,
+      },
+      user: {
+        pending: false,
+        email: "",
+        name: ""
+      }
     })
   })
-  it("set pending with setAuthPending action", () => {
-    expect(reducer(undefined, setAuthPending(true))).toEqual({
-      pending: true,
-      user: { name: "", email: ""}
-    })
-  })
-  it("set user with setUser action", () => {
-    expect(reducer(undefined, setUser({ name: "abc", email: "kek"}))).toEqual({
-      pending: true,
-      user: { name: "abc", email: "kek"}
-    })
-  })
-  it("reset user with resetAuth action", () => {
-    expect(reducer(undefined, resetAuth())).toEqual({
-      pending: true,
-      user: { name: "", email: ""}
+  it("set tokens and user with authLogin action", () => {
+    expect(reducer(undefined, {
+      type: authLogin.fulfilled.type,
+      payload: {
+        accessToken: "accessToken",
+        refreshToken: "refreshToken",
+        user: {name: "abc", email: "kek"}
+      }
+    })).toEqual({
+      tokens: {
+        pending: false,
+        accessToken: "accessToken",
+        refreshToken: "refreshToken",
+      },
+      user: {
+        pending: false,
+        email: "kek",
+        name: "abc"
+      }
     })
   })
 })

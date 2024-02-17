@@ -15,9 +15,6 @@ export const fetchJson = async (url:  string | URL | globalThis.Request, options
     newOptions.body = JSON.stringify(newOptions.body);
   }
   const resp = await fetch(url, newOptions);
-  if (resp.status === 401) {
-
-  }
   const contentType = resp.headers.get("content-type");
   if (!contentType?.includes("application/json")) {
     throw new Error("Response is not JSON");

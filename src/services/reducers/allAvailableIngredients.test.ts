@@ -1,12 +1,13 @@
-import reducer, {getIngredientsRequest, getIngredientsFailure, getIngredientsSuccess} from './allAvailableIngredients'
+import reducer, {
+  getIngredientsRequest,
+  getIngredientsFailure,
+  getIngredientsSuccess,
+  allAvailableIngredientsInitialState
+} from './allAvailableIngredients'
 
 describe("allAvailableIngredients reducer should work", () => {
   it("initiate state properly", () => {
-    expect(reducer(undefined, {} as any)).toEqual({
-      data: undefined,
-      error: undefined,
-      isLoading: false
-    })
+    expect(reducer(undefined, {} as any)).toEqual(allAvailableIngredientsInitialState)
   })
 
  it("set loading with getIngredientsRequest action", () => {

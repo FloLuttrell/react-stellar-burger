@@ -6,8 +6,9 @@ import {useAppSelector} from "../../hooks";
 export const WithAuthPage: React.FunctionComponent = ({children}) => {
   const authState = useAppSelector((s) => s.auth);
   const location = useLocation();
-  if (!authState.user.email && !authState.pending) {
-    return (<Navigate to="/login" state={{ redirectTo: location.pathname }}></Navigate>);
+  console.log(authState)
+  if (!authState.user.email && !authState.user.pending && !authState.tokens.pending) {
+    return (<Navigate to="/login" state={{redirectTo: location.pathname}}></Navigate>);
   }
   if (!authState.user.email) {
     return (<></>)

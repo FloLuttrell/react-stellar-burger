@@ -1,7 +1,7 @@
 describe('burgerConstructorPage', function () {
   it('should work', function () {
     cy.viewport(1400, 1000);
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
     cy.intercept(
       {method: "GET", url: "https://norma.nomoreparties.space/api/ingredients"},
       {fixture: "ingredients.json"}

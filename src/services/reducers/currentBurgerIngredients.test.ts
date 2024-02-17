@@ -1,6 +1,6 @@
 import reducer, {
   addBurgerIngredient,
-  CurrentBurgerIngredients,
+  CurrentBurgerIngredients, currentBurgerIngredientsInitialState,
   IngredientSelected,
   moveBurgerIngredient,
   removeBurgerIngredient
@@ -10,11 +10,7 @@ const makeFakeIngredient = (opt: Partial<IngredientSelected>) => (opt as Ingredi
 
 describe("currentBurgerIngredients reducer should work", () => {
   it("initiate state properly", () => {
-    expect(reducer(undefined, {} as any)).toEqual({
-      bun: undefined,
-      mainsAndSauces: [],
-      totalPrice: 0
-    })
+    expect(reducer(undefined, {} as any)).toEqual(currentBurgerIngredientsInitialState)
   })
   it("add bun with addBurgerIngredient action", () => {
     const bun = makeFakeIngredient({_id: "1", type: "bun", price: 1})

@@ -34,7 +34,7 @@ export const findIngredientById = (state: AllAvailableIngredients, ingredientId:
 }
 
 
-const allAvailableIngredientsInitialState : AllAvailableIngredients = {
+export const allAvailableIngredientsInitialState : AllAvailableIngredients = {
   isLoading: false,
   data: undefined,
   error: undefined
