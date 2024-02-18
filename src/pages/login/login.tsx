@@ -20,7 +20,6 @@ export const LoginPage: React.FunctionComponent = () => {
       ev.preventDefault();
       try {
         await dispatch(authLogin({email: emailState.value, password: passwordState.value})).unwrap()
-        console.log('asd')
         navigate(location.state?.redirectTo ?? "/");
         // setErrorMessage(data.message);
       } catch (err) {

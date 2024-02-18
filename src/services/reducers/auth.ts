@@ -59,8 +59,8 @@ const authSlice = createSlice({
       })
       .addCase(authFetchUser.fulfilled, (state, action) => {
         state.user.pending = false;
-        state.user.name = action.payload.name
-        state.user.email = action.payload.email
+        state.user.name = action.payload.user.name
+        state.user.email = action.payload.user.email
       })
       .addCase(authFetchUser.rejected, (state, action) => {
         state.user.pending = false;

@@ -9,13 +9,13 @@ export const authRefreshToken = createAsyncThunk('auth/refreshToken', async () =
 })
 
 export const authFetchUser = createAsyncThunk<
-  { name: string, email: string }
+  {user: { name: string, email: string } }
 >('auth/fetchUser', async () => {
   const {resp, data} = await fetchJsonWithAuth(`${API_BASE_URL}/auth/user`, {});
   if (!resp.ok || !data.success) {
     throw new Error("authFetchUser: unable to fetch user")
   }
-  return data.user;
+  return data;
 })
 
 export const authLogin = createAsyncThunk<
@@ -35,7 +35,7 @@ export const authLogin = createAsyncThunk<
   }
   const typedData = data;
   setAuthTokens(typedData);
-  return typedData.user;
+  return typedData;
 });
 
 export const authLogout = createAsyncThunk<
@@ -88,7 +88,7 @@ export const authRegister = createAsyncThunk<
   },
   { name: string, email: string, password: string }
 >('auth/register', async ({name, email, password}) => {
-  const {resp, data} = await fetchJson(`${API_BASE_URL}/password-reset`, {
+  const {resp, data} = await fetchJson(`${API_BASE_URL}/auth/register`, {
     method: "POST",
     body: {name, email, password}
   });

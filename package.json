@@ -8,6 +8,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress:open": ".\\node_modules\\.bin\\cypress open",
+    "cypress:run": ".\\node_modules\\.bin\\cypress run",
     "deploy-script": "npm run build && scp -r ./build/* hatter@158.160.137.51:/home/hatter/stellar-frontend/"
   },
   "dependencies": {
