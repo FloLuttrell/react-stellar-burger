@@ -5,13 +5,12 @@ import {ForgotPasswordPage} from "../../pages/forgot-password/forgot-password";
 import {RegisterPage} from "../../pages/register/register";
 import {ResetPasswordPage} from "../../pages/reset-password/reset-password";
 import {ProfilePage} from "../../pages/profile/profile";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {OrderFeedPage} from "../../pages/order-feed/order-feed-page";
 import {ProfileInfoPage} from "../../pages/profile-info/profile-info";
 import {ProfileOrderListPage} from "../../pages/profile-order-list/profile-order-list";
 import {IngredientPage} from "../../pages/ingredient/ingredient";
 import {getIngredients} from "../../services/actions/allAvailableIngredients";
-import {WithAuthPage, WithoutAuthPage} from "../protected-route/protected-route";
 import {useAppDispatch} from "../../hooks";
 import {Modal} from "../modal/modal";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
@@ -21,9 +20,11 @@ import {ProfileOrderDetailPage} from "../../pages/profile-order-detail/profile-o
 import {AppHeader} from "../app-header/app-header";
 import styles from "./app.module.css"
 import {authFetchUser, authRefreshToken} from "../../services/actions/auth";
+import {ProtectedRoute} from "../protected-route/protected-route";
 
 
 export const App: React.FunctionComponent = () => {
+  const [authChecked, setAuthChecked] = useState(false)
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -33,6 +34,8 @@ export const App: React.FunctionComponent = () => {
         await dispatch(authFetchUser()).unwrap();
       } catch (err) {
         // todo: handle error
+      } finally {
+        setAuthChecked(true)
       }
     })()
   }, [dispatch]);
@@ -44,7 +47,9 @@ export const App: React.FunctionComponent = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const backgroundLocation = location.state?.backgroundLocation;
-
+  if (!authChecked) {
+    return (<></>)
+  }
   return (
     <div className={styles.appWrapper}>
       <div className={styles.appHeader}>
@@ -53,20 +58,35 @@ export const App: React.FunctionComponent = () => {
       <div className={styles.appContent}>
         <Routes location={backgroundLocation || location}>
           <Route path="/register" element={(
-            <WithoutAuthPage>
+            <ProtectedRoute anonymous={true}>
               <RegisterPage/>
-            </WithoutAuthPage>
+            </ProtectedRoute>
           )}></Route>
           <Route path="/login" element={(
-            <WithoutAuthPage>
+            <ProtectedRoute anonymous={true}>
               <LoginPage/>
-            </WithoutAuthPage>
+            </ProtectedRoute>
           )}></Route>
-          <Route path="/forgot-password" element={(<WithoutAuthPage><ForgotPasswordPage/></WithoutAuthPage>)}></Route>
-          <Route path="/reset-password" element={(<WithoutAuthPage><ResetPasswordPage/></WithoutAuthPage>)}></Route>
-
-          <Route path="/profile" element={(<WithAuthPage><ProfilePage/></WithAuthPage>)}>
-            <Route path="orders/:orderId" element={<ProfileOrderDetailPage/>}></Route>
+          <Route path="/forgot-password" element={(
+            <ProtectedRoute anonymous={true}>
+              <ForgotPasswordPage/>
+            </ProtectedRoute>
+          )}></Route>
+          <Route path="/reset-password" element={(
+            <ProtectedRoute anonymous={true}>
+              <ResetPasswordPage/>
+            </ProtectedRoute>
+          )}></Route>
+          <Route path="/profile/orders/:orderId" element={(
+            <ProtectedRoute anonymous={false}>
+              <ProfileOrderDetailPage/>
+            </ProtectedRoute>
+          )}></Route>
+          <Route path="/profile" element={(
+            <ProtectedRoute anonymous={false}>
+              <ProfilePage/>
+            </ProtectedRoute>
+          )}>
             <Route path="orders" element={<ProfileOrderListPage/>}></Route>
             <Route path="" element={<ProfileInfoPage/>}></Route>
           </Route>
@@ -88,9 +108,11 @@ export const App: React.FunctionComponent = () => {
               </Modal>
             }></Route>
             <Route path="/profile/orders/:orderId" element={
+              // <ProtectedRoute anonymous={false}>
               <Modal title="" onClose={() => navigate("/profile/orders")}>
                 <OrderInfo></OrderInfo>
               </Modal>
+              // </ProtectedRoute>
             }></Route>
           </Routes>
         )}

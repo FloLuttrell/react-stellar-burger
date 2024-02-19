@@ -4,7 +4,7 @@ import styles from "./burger-constructor.module.css";
 import {useDrop} from "react-dnd";
 import {sendOrder} from "../../services/actions/order";
 import {getAuthTokens} from "../../utils/functions";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {findIngredientById} from "../../services/reducers/allAvailableIngredients";
 import {addBurgerIngredient} from "../../services/reducers/currentBurgerIngredients";
@@ -15,6 +15,7 @@ import {MenuCardDragItem} from "../menu-card/menu-card";
 
 export const BurgerConstructor: React.FunctionComponent = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const dispatch = useAppDispatch();
   const [modalOpened, setModalOpened] = useState(false);
@@ -89,7 +90,7 @@ export const BurgerConstructor: React.FunctionComponent = () => {
                     setModalOpened(true);
                     dispatch(sendOrder());
                   } else {
-                    navigate("/login")
+                    navigate("/login", {state: {redirectTo: location.pathname}})
                   }
                 }}
               >
