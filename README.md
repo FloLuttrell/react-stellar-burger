@@ -2,4 +2,4 @@
 # Этап "Промежуточный проект. CRA-заготовка и структура папок под компоненты"
 
 
-asd@asd.e asdasd
+http://wasteoftime.students.nomoredomainswork.ru/

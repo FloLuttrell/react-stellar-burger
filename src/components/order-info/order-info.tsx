@@ -11,9 +11,7 @@ export const OrderInfo: React.FunctionComponent = () => {
   const {data} = useAppSelector(store => store.allAvailableIngredients);
   const order = useAppSelector(s => s.orderFeed.orders.find(o => o._id === orderId))
   if (!order) {
-    return (
-      <div>???</div>
-    )
+    return (<></>)
   }
   const mixedIngredients: Ingredient[] = [];
   if (data) {
@@ -36,7 +34,6 @@ export const OrderInfo: React.FunctionComponent = () => {
 
   return (
     <div className={styles.orderCard}>
-      {/*<span>OrderInfo</span>*/}
       <div className={`${styles.centerText} text text_type_digits-default`}># {order.number}</div>
       <h2 className={`mt-10 mb-3 text text_type_main-medium`}>{order.name}</h2>
       <div className={`text text_type_main-small mb-15 ${styles.blueNumbers}`}>{orderStatusRu[order.status]}</div>

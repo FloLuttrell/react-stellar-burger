@@ -39,7 +39,9 @@ export const AppHeader: React.FunctionComponent = () => {
         </ul>
       </nav>
       <div>
-        <Logo/>
+        <NavLink to="/">
+          <Logo/>
+        </NavLink>
       </div>
       <nav className={`${styles.headerNav}`}>
         <ul className={`${styles.ul} ${styles.headerNavRight}`}>

@@ -28,7 +28,7 @@ export const Modal: React.FunctionComponent<ModalProps> = ({children, title, onC
   return createPortal((
     <ModalOverlay onOverlayClick={onClose}>
       <div className={styles.mainWindow}>
-        <div className={`${styles.modalHeader} pt-10`}>
+        <div id="el" tabIndex={1} className={`${styles.modalHeader} pt-10`}>
           <p className="text text_type_main-large">{title}</p>
           <div className={styles.closeIcon}><CloseIcon type="primary" onClick={onClose}/></div>
         </div>

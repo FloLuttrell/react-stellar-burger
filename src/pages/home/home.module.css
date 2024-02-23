@@ -1,20 +1,10 @@
-/*.home {*/
-/*  background-color: #131316;*/
-/*  height: 100%;*/
-/*  margin: 0;*/
-/*  overflow: hidden;*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*}*/
-
 .app {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
   background-color: #131316;
   color: #f2f2f3;
-  /*align-items: center;*/
 }
 
 .content {
@@ -24,7 +14,6 @@
   max-height: 100vh;
   min-width: 1280px;
   margin: 0 auto;
-
 }
 
 .contentPart {

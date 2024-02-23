@@ -9,7 +9,7 @@ type Order = {
   error?: Error
 }
 
-const orderInitialState: Order = {
+export const orderInitialState: Order = {
   isLoading: false,
   data: undefined,
   error: undefined

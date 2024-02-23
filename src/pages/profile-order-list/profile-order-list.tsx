@@ -1,11 +1,17 @@
 import {useLocation, useNavigate} from "react-router-dom";
-import {useAppDispatch, useAppSelector, useOrderFeed} from "../../hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks";
 import {OrderCard} from "../../components/order-card/order-card";
 import {buildWsOrderFeedUrl} from "../../utils/functions";
+import {wsConnectionStart} from "../../services/reducers/orderFeed";
+import {useEffect} from "react";
 
 
 export const ProfileOrderListPage: React.FunctionComponent = () => {
-  useOrderFeed(useAppDispatch(), buildWsOrderFeedUrl())
+  const dispatch = useAppDispatch();
+  const feedUrl = buildWsOrderFeedUrl();
+  useEffect(() => {
+    dispatch(wsConnectionStart(feedUrl))
+  }, [dispatch, feedUrl]);
   const orders = useAppSelector((s) => s.orderFeed.orders);
   const navigate = useNavigate()
   const location = useLocation()

@@ -3,30 +3,18 @@ import React from "react";
 import {useAppSelector} from "../../hooks";
 
 
-export const WithAuthPage: React.FunctionComponent = ({children}) => {
-  const authState = useAppSelector((s) => s.auth);
+type ProtectedRouteProps = {
+  anonymous: boolean
+}
+export const ProtectedRoute: React.FunctionComponent<ProtectedRouteProps> = ({ anonymous, children}) => {
+  const auth = useAppSelector((store) => store.auth);
+  const authLoggedIn = auth.user.email;
   const location = useLocation();
-  if (!authState.user.email && !authState.pending) {
-    return (<Navigate to="/login" state={{ redirectTo: location.pathname }}></Navigate>);
+  if (anonymous && authLoggedIn) {
+    return (<Navigate to={ location.state?.redirectTo ?? "/"}></Navigate>);
   }
-  if (!authState.user.email) {
-    return (<></>)
+  if (!anonymous && !authLoggedIn) {
+    return (<Navigate to="/login" state={{redirectTo: location.pathname}}></Navigate>);
   }
-  return (
-    <>
-      {children}
-    </>
-  );
-};
-
-export const WithoutAuthPage: React.FunctionComponent = ({children}) => {
-  const authState = useAppSelector((s) => s.auth);
-  if (authState.user.email) {
-    return (<Navigate to="/profile"></Navigate>);
-  }
-  return (
-    <>
-      {children}
-    </>
-  );
-};
+  return (<>{children}</>);
+}

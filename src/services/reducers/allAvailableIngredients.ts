@@ -34,7 +34,7 @@ export const findIngredientById = (state: AllAvailableIngredients, ingredientId:
 }
 
 
-const allAvailableIngredientsInitialState : AllAvailableIngredients = {
+export const allAvailableIngredientsInitialState : AllAvailableIngredients = {
   isLoading: false,
   data: undefined,
   error: undefined
@@ -52,7 +52,7 @@ export const allAvailableIngredientsSlice = createSlice({
     getIngredientsSuccess(state, action: PayloadAction<NonNullable<AllAvailableIngredients["data"]>>) {
       const {buns, sauces, mains} = action.payload;
       state.isLoading = false;
-      state.error = false;
+      state.error = undefined;
       state.data = {buns, sauces, mains};
     },
     getIngredientsFailure(state , action: PayloadAction<Error>) {
